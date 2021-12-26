@@ -39,12 +39,12 @@ public final class WizardStaffs extends JavaPlugin implements Listener {
                     String uuid = player.launchProjectile(Snowball.class).getUniqueId().toString(); //Launch a snowball & get the UUID
                     freezeSpellUUID.put(uuid, player.getName()); //Put UUID and PlayerName to HashMap
 
-                    player.sendMessage("You casted a spell!");
+                    player.sendMessage("You casted an ice spell!");
                 } else if (player.getInventory().getItemInOffHand().getType() == Material.BOOK && player.getInventory().getItemInOffHand().getItemMeta().getDisplayName().equals("Fire Spell")) {
                     String uuid = player.launchProjectile(Snowball.class).getUniqueId().toString(); //Launch a snowball & get the UUID
                     fireSpellUUID.put(uuid, player.getName()); //Put UUID and PlayerName to HashMap
 
-                    player.sendMessage("You casted a spell!");
+                    player.sendMessage("You casted a fire spell!");
                 }
             }
         }
@@ -61,7 +61,7 @@ public final class WizardStaffs extends JavaPlugin implements Listener {
                 Player shooter = Bukkit.getPlayer(freezeSpellUUID.get(uuid)); //get shooter
                 Location location = damaged.getLocation(); //get location of damaged player
 
-                for (double y = -2; y <= 2; y++) {
+                for (double y = -2; y <= 2; y++) { //create outer cube with ice
                     for (double x = -2; x <= 2; x++) {
                         for (double z = -2; z <= 2; z++) {
                             location.add(x,y,z);
@@ -75,7 +75,7 @@ public final class WizardStaffs extends JavaPlugin implements Listener {
                     }
                 }
 
-                for (double y = -1; y <= 1; y++) {
+                for (double y = -1; y <= 1; y++) { //create air inner cube
                     for (double x = -1; x <= 1; x++) {
                         for (double z = -1; z <= 1; z++) {
                             location.add(x,y,z);
@@ -89,7 +89,7 @@ public final class WizardStaffs extends JavaPlugin implements Listener {
                     }
                 }
 
-                Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
+                Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() { //replace created structure back to air
                     public void run() {
                         for (double y = -2; y <= 2; y++) {
                             for (double x = -2; x <= 2; x++) {
@@ -107,11 +107,15 @@ public final class WizardStaffs extends JavaPlugin implements Listener {
                     }
                 }, 200);
 
-                shooter.sendMessage("You hit " + damaged.getName() + " with a spell!");
+                shooter.sendMessage("You hit " + damaged.getName() + " with a ice spell!");
             } else if (fireSpellUUID.containsKey(uuid)) {
                 Player damaged = ((Player) event.getEntity()).getPlayer(); //get damaged player
-                Player shooter = Bukkit.getPlayer(freezeSpellUUID.get(uuid)); //get shooter
+                Player shooter = Bukkit.getPlayer(fireSpellUUID.get(uuid)); //get shooter
                 Location location = damaged.getLocation(); //get location of damaged player
+
+                damaged.setFireTicks(6 * 20); //set damaged on fire
+
+                shooter.sendMessage("You hit " + damaged.getName() + " with a fire spell!");
             }
         }
     }
