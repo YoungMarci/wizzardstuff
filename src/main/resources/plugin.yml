@@ -1,0 +1,4 @@
+name: Wizardstuff
+version: '${project.version}'
+main: me.youngmarci.wizardstuff.Wizardstuff
+description: Plugin adding wizard stuff to minecraft!
