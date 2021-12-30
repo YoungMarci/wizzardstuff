@@ -33,9 +33,13 @@ public final class Wizardstuff extends JavaPlugin implements Listener {
     public Map<String, String> manaStealSpellEq = new HashMap<String, String>();
     public Map<String, String> manaStealSpellUUID = new HashMap< String, String>();
 
-    public Integer switchPlaceSpellCost = 100;
+    public Integer switchPlaceSpellCost = 50;
     public Map<String, String> switchPlaceSpellEq = new HashMap<String, String>();
     public Map<String, String> switchPlaceSpellUUID = new HashMap< String, String>();
+
+    public Integer meteorRainSpellCost = 10;
+    public Map<String, String> meteorRainSpellEq = new HashMap<String, String>();
+    public Map<String, String> meteorRainSpellUUID = new HashMap< String, String>();
 
     manaPoints mnaPoints;
     public HashMap<String, Integer> manaCount = new HashMap<String, Integer>();
@@ -115,6 +119,20 @@ public final class Wizardstuff extends JavaPlugin implements Listener {
 
     public void addSwitchPlaceSpellUUID(String uuid, String name) {
         switchPlaceSpellUUID.put(uuid,name);
+    }
+
+    // Add Meteor Rain Spell
+
+    public void addMeteorRainSpellEq(String uuid, String name) {
+        meteorRainSpellEq.put(uuid,name);
+    }
+
+    public void rmvMeteorRainSpellEq(String uuid, String name) {
+        meteorRainSpellEq.remove(uuid,name);
+    }
+
+    public void addMeteorRainSpellUUID(String uuid, String name) {
+        meteorRainSpellUUID.put(uuid,name);
     }
 
     // Mana Points

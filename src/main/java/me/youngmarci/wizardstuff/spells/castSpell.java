@@ -37,6 +37,10 @@ public class castSpell implements Listener {
     public Map<String, String> switchPlaceSpellEq;
     public Map<String, String> switchPlaceSpellUUID;
 
+    public Integer meteorRainSpellCost;
+    public Map<String, String> meteorRainSpellEq;
+    public Map<String, String> meteorRainSpellUUID;
+
     public HashMap<String, Integer> manaCount;
 
     public castSpell(Wizardstuff w) { // (Require instance of Wizardstuff) Accessing variables from main class (Wizardstuff)
@@ -61,6 +65,10 @@ public class castSpell implements Listener {
         this.switchPlaceSpellCost = w.switchPlaceSpellCost;
         this.switchPlaceSpellEq = w.switchPlaceSpellEq;
         this.switchPlaceSpellUUID = w.switchPlaceSpellUUID;
+
+        this.meteorRainSpellCost = w.meteorRainSpellCost;
+        this.meteorRainSpellEq = w.meteorRainSpellEq;
+        this.meteorRainSpellUUID = w.meteorRainSpellUUID;
 
 
         this.manaCount = w.manaCount;
@@ -148,7 +156,20 @@ public class castSpell implements Listener {
 
                         wizzStuff.addSwitchPlaceSpellUUID(projectileUUID, playerName);
                         player.sendMessage("You casted a switch place spell! Remaining mana: " + manaLeft);
+                    }
+                } else if (meteorRainSpellEq.containsKey(playerUUID)) {
+                    if (mana >= meteorRainSpellCost) {
+                        Integer manaLeft = mana - meteorRainSpellCost;
 
+                        wizzStuff.rmvManaPoints(playerUUID, mana);
+                        wizzStuff.addManaPoints(playerUUID, manaLeft);
+
+                        wizzStuff.rmvMeteorRainSpellEq(playerUUID, playerName);
+
+                        String projectileUUID = player.launchProjectile(Snowball.class).getUniqueId().toString(); // Launch a snowball & get its UUID
+
+                        wizzStuff.addMeteorRainSpellUUID(projectileUUID, playerName);
+                        player.sendMessage("You casted a meteor rain spell! Remaining mana: " + manaLeft);
                     }
                 }
             }

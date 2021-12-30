@@ -27,6 +27,9 @@ public class spellBook implements Listener {
     public Map<String, String> switchPlaceSpellEq;
     public Map<String, String> switchPlaceSpellUUID;
 
+    public Map<String, String> meteorRainSpellEq;
+    public Map<String, String> meteorRainSpellUUID;
+
     public HashMap<String, Integer> manaCount;
 
     public spellBook(Wizardstuff w) { // (Require instance of Wizardstuff) Accessing variables from main class (Wizardstuff)
@@ -47,6 +50,10 @@ public class spellBook implements Listener {
         this.switchPlaceSpellEq = w.switchPlaceSpellEq;
         this.switchPlaceSpellUUID = w.switchPlaceSpellUUID;
 
+        this.meteorRainSpellEq = w.meteorRainSpellEq;
+        this.meteorRainSpellUUID = w.meteorRainSpellUUID;
+
+
         this.manaCount = w.manaCount;
     }
 
@@ -57,7 +64,7 @@ public class spellBook implements Listener {
         String playerName = player.getName();
         BookMeta bookmeta = event.getNewBookMeta();
 
-        if (!iceSpellEq.containsKey(playerUUID) && !teleportSpellEq.containsKey(playerUUID) && !decaySpellEq.containsKey(playerUUID) && !manaStealSpellEq.containsKey(playerUUID) && !switchPlaceSpellEq.containsKey(playerUUID)) { // If any spell is not equipped
+        if (!iceSpellEq.containsKey(playerUUID) && !teleportSpellEq.containsKey(playerUUID) && !decaySpellEq.containsKey(playerUUID) && !manaStealSpellEq.containsKey(playerUUID) && !switchPlaceSpellEq.containsKey(playerUUID) && !meteorRainSpellEq.containsKey(playerUUID)) { // If any spell is not equipped
             if (player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals("SpellBook")) { // Check for SpellBook in main hand
                 String pageContent = bookmeta.getPage(1);
 
@@ -77,10 +84,14 @@ public class spellBook implements Listener {
                     wizzStuff.addManaStealSpellEq(playerUUID, playerName);
 
                     player.sendMessage("You equipped mana steal spell!");
-                } else if (pageContent.contains("swtch")) {
+                } else if (pageContent.contains("switch")) {
                     wizzStuff.addSwitchPlaceSpellEq(playerUUID, playerName);
 
                     player.sendMessage("You equipped place switch spell!");
+                } else if (pageContent.contains("mtrn")) {
+                    wizzStuff.addMeteorRainSpellEq(playerUUID, playerName);
+
+                    player.sendMessage("You equipped meteor rain spell!");
                 }
             }
         }

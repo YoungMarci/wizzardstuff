@@ -2,16 +2,16 @@ package me.youngmarci.wizardstuff.spells;
 
 import me.youngmarci.wizardstuff.Wizardstuff;
 import org.bukkit.*;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
-import org.bukkit.entity.Snowball;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class spellEffect implements Listener {
 
@@ -30,6 +30,10 @@ public class spellEffect implements Listener {
 
     public Map<String, String> switchPlaceSpellEq;
     public Map<String, String> switchPlaceSpellUUID;
+
+    public Map<String, String> meteorRainSpellEq;
+    public Map<String, String> meteorRainSpellUUID;
+    public Map<String, String> meteorslUUID = new HashMap<String, String>();
 
     public HashMap<String, Integer> manaCount;
 
@@ -50,6 +54,9 @@ public class spellEffect implements Listener {
 
         this.switchPlaceSpellEq = w.switchPlaceSpellEq;
         this.switchPlaceSpellUUID = w.switchPlaceSpellUUID;
+
+        this.meteorRainSpellEq = w.meteorRainSpellEq;
+        this.meteorRainSpellUUID = w.meteorRainSpellUUID;
 
         this.manaCount = w.manaCount;
     }
@@ -170,6 +177,70 @@ public class spellEffect implements Listener {
                 }, 200);
 
                 shooterPlayer.sendMessage("Decay spell ended, you were teleported back to old position!");
+            } else if (meteorRainSpellUUID.containsKey(snowballUUID)) {
+                Player shooterPlayer = Bukkit.getPlayer(meteorRainSpellUUID.get(snowballUUID));
+
+                if (event.getHitBlock() == null) {
+                    Location hitEntity = event.getHitEntity().getLocation();
+
+                    for (double x = -6; x <= 6; x++) { //Get Random Location 5 Times
+                        for (double z = -6; z <= 6; z++) {
+                            hitEntity.add(x,0,z);
+                            hitEntity.setY(120);
+
+                            //Spawn falling block if randint > 50
+                            int upper = 20;
+                            Random random = new Random();
+                            int randomInt = random.nextInt(upper);
+                            if (randomInt >= 18) {
+                                FallingBlock block = hitEntity.getWorld().spawnFallingBlock(hitEntity, Material.COAL_BLOCK, (byte) 0);
+                                block.setDropItem(false);
+                                String fallingBlockUUID = block.getUniqueId().toString();
+                                meteorslUUID.put(fallingBlockUUID, shooterPlayer.getName());
+                            }
+                            hitEntity.subtract(x,0,z);
+
+                        }
+                    }
+                } else {
+                    Location hitBlock = event.getHitBlock().getLocation();
+
+                    for (double x = -6; x <= 6; x++) { //Get Random Location in radius
+                        for (double z = -6; z <= 6; z++) {
+                            hitBlock.add(x,0,z);
+                            hitBlock.setY(120);
+
+                            //Spawn falling block if randint > = 18
+                            int upper = 20;
+                            Random random = new Random();
+                            int randomInt = random.nextInt(upper);
+                            if (randomInt >= 18) {
+                                // I want to make a delay between spawning this fallingblock (block) below
+                                FallingBlock block = hitBlock.getWorld().spawnFallingBlock(hitBlock, Material.COAL_BLOCK, (byte) 0);
+                                block.setDropItem(false);
+                                String fallingBlockUUID = block.getUniqueId().toString();
+                                meteorslUUID.put(fallingBlockUUID, shooterPlayer.getName());
+                            }
+                            hitBlock.subtract(x,0,z);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void onFallingBlockFall(EntityChangeBlockEvent event) {
+        if (event.getEntityType() == EntityType.FALLING_BLOCK) {
+            FallingBlock fallingBlock = (FallingBlock) event.getEntity();
+            String fallingBlockUUID = fallingBlock.getUniqueId().toString();
+            Location fallingBlockLocation = fallingBlock.getLocation();
+
+            if (meteorslUUID.containsKey(fallingBlockUUID)) {
+                fallingBlockLocation.getBlock().setType(Material.AIR);
+                fallingBlockLocation.getWorld().createExplosion(fallingBlockLocation.getBlockX(),fallingBlockLocation.getBlockY(), fallingBlockLocation.getBlockZ(),2, false, false);
+                fallingBlock.remove();
+                event.setCancelled(true);
             }
         }
     }
