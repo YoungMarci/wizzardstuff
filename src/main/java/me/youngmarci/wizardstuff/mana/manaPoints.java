@@ -14,15 +14,11 @@ import java.util.Map;
 public class manaPoints implements Listener {
 
     Wizardstuff wizzStuff;
-    public Map<String, String> iceSpellEq;
-    public Map<String, String> iceSpellUUID;
 
     public HashMap<String, Integer> manaCount;
 
     public manaPoints(Wizardstuff w) { // (Require instance of Wizardstuff) Accessing variables from main class (Wizardstuff)
         this.wizzStuff = w;
-        this.iceSpellEq = w.iceSpellEq;
-        this.iceSpellUUID = w.iceSpellUUID;
 
         this.manaCount = w.manaCount;
     }
@@ -42,15 +38,15 @@ public class manaPoints implements Listener {
             public void run() {
                 if(manaCount.containsKey(playerUUID)) {
                     Integer mana = manaCount.get(playerUUID);
-                    if (mana != 100) {
+                    if (95 >= mana) {
                         wizzStuff.rmvManaPoints(playerUUID, mana);
                         wizzStuff.addManaPoints(playerUUID, mana + 5);
                         player.setLevel(mana); // Display mana as XP level
                         player.setExp((float) mana / 100); // Display mana at XP Bar
                         player.sendMessage("Mana recharging... Current mana level: " + mana);
-                    } else {
+                    } else if (mana == 100 || mana > 100) {
                         player.setLevel(mana); // Display mana as XP level
-                        player.setExp((float) mana / 100); // Display mana at XP Bar
+                        player.setExp(1); // Display mana at XP Bar
                     }
                 }
             }

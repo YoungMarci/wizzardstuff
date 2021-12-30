@@ -16,8 +16,26 @@ public final class Wizardstuff extends JavaPlugin implements Listener {
     castSpell cstSpell;
     spellBook splBook;
     spellEffect splEffect;
+
+    public Integer iceSpellCost = 20;
     public Map<String, String> iceSpellEq = new HashMap<String, String>();
     public Map<String, String> iceSpellUUID = new HashMap< String, String>();
+
+    public Integer teleportationSpellCost = 50;
+    public Map<String, String> teleportSpellEq = new HashMap<String, String>();
+    public Map<String, String> teleportSpellUUID = new HashMap< String, String>();
+
+    public Integer decaySpellCost = 30;
+    public Map<String, String> decaySpellEq = new HashMap<String, String>();
+    public Map<String, String> decaySpellUUID = new HashMap< String, String>();
+
+    public Integer manaStealSpellCost = 100;
+    public Map<String, String> manaStealSpellEq = new HashMap<String, String>();
+    public Map<String, String> manaStealSpellUUID = new HashMap< String, String>();
+
+    public Integer switchPlaceSpellCost = 100;
+    public Map<String, String> switchPlaceSpellEq = new HashMap<String, String>();
+    public Map<String, String> switchPlaceSpellUUID = new HashMap< String, String>();
 
     manaPoints mnaPoints;
     public HashMap<String, Integer> manaCount = new HashMap<String, Integer>();
@@ -43,8 +61,60 @@ public final class Wizardstuff extends JavaPlugin implements Listener {
         iceSpellUUID.put(uuid,name);
     }
 
-    public void rmvIceSpellUUID(String uuid, String name) {
-        iceSpellUUID.remove(uuid,name);
+    // Teleportation Spell
+
+    public void addTeleportSpellEq(String uuid, String name) {
+        teleportSpellEq.put(uuid,name);
+    }
+
+    public void rmvTeleportSpellEq(String uuid, String name) {
+        teleportSpellEq.remove(uuid,name);
+    }
+
+    public void addTeleportSpellUUID(String uuid, String name) {
+        teleportSpellUUID.put(uuid,name);
+    }
+
+    // Decay Spell
+
+    public void addDecaySpellEq(String uuid, String name) {
+        decaySpellEq.put(uuid,name);
+    }
+
+    public void rmvDecaySpellEq(String uuid, String name) {
+        decaySpellEq.remove(uuid,name);
+    }
+
+    public void addDecaySpellUUID(String uuid, String name) {
+        decaySpellUUID.put(uuid,name);
+    }
+
+    // Mana Steal Spell
+
+    public void addManaStealSpellEq(String uuid, String name) {
+        manaStealSpellEq.put(uuid,name);
+    }
+
+    public void rmvManaStealSpellEq(String uuid, String name) {
+        manaStealSpellEq.remove(uuid,name);
+    }
+
+    public void addManaStealSpellUUID(String uuid, String name) {
+        manaStealSpellUUID.put(uuid,name);
+    }
+
+    // Place Switch Spell
+
+    public void addSwitchPlaceSpellEq(String uuid, String name) {
+        switchPlaceSpellEq.put(uuid,name);
+    }
+
+    public void rmvSwitchPlaceSpellEq(String uuid, String name) {
+        switchPlaceSpellEq.remove(uuid,name);
+    }
+
+    public void addSwitchPlaceSpellUUID(String uuid, String name) {
+        switchPlaceSpellUUID.put(uuid,name);
     }
 
     // Mana Points
