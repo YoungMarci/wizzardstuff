@@ -12,8 +12,8 @@ import java.util.Map;
 public class spellBook implements Listener {
 
     Wizardstuff wizzStuff;
-    public Map<String, String> iceSpellEq;
-    public Map<String, String> iceSpellUUID;
+    public Map<String, String> freezeEnemySpellEq;
+    public Map<String, String> freezeEnemySpellUUID;
 
     public Map<String, String> teleportSpellEq;
     public Map<String, String> teleportSpellUUID;
@@ -35,8 +35,8 @@ public class spellBook implements Listener {
     public spellBook(Wizardstuff w) { // (Require instance of Wizardstuff) Accessing variables from main class (Wizardstuff)
         this.wizzStuff = w;
 
-        this.iceSpellEq = w.iceSpellEq;
-        this.iceSpellUUID = w.iceSpellUUID;
+        this.freezeEnemySpellEq = w.freezeEnemySpellEq;
+        this.freezeEnemySpellUUID = w.freezeEnemySpellUUID;
 
         this.teleportSpellEq = w.teleportSpellEq;
         this.teleportSpellUUID = w.teleportSpellUUID;
@@ -64,14 +64,14 @@ public class spellBook implements Listener {
         String playerName = player.getName();
         BookMeta bookmeta = event.getNewBookMeta();
 
-        if (!iceSpellEq.containsKey(playerUUID) && !teleportSpellEq.containsKey(playerUUID) && !decaySpellEq.containsKey(playerUUID) && !manaStealSpellEq.containsKey(playerUUID) && !switchPlaceSpellEq.containsKey(playerUUID) && !meteorRainSpellEq.containsKey(playerUUID)) { // If any spell is not equipped
+        if (!freezeEnemySpellEq.containsKey(playerUUID) && !teleportSpellEq.containsKey(playerUUID) && !decaySpellEq.containsKey(playerUUID) && !manaStealSpellEq.containsKey(playerUUID) && !switchPlaceSpellEq.containsKey(playerUUID) && !meteorRainSpellEq.containsKey(playerUUID)) { // If any spell is not equipped
             if (player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals("SpellBook")) { // Check for SpellBook in main hand
                 String pageContent = bookmeta.getPage(1);
 
                 if (pageContent.contains("ice")) { // Check if content in book matches spell name
-                    wizzStuff.addIceSpellEq(playerUUID, playerName);
+                    wizzStuff.addFreezeEnemySpellEq(playerUUID, playerName);
 
-                    player.sendMessage("You equipped ice spell!");
+                    player.sendMessage("You equipped freeze enemy spell!");
                 } else if (pageContent.contains("tp")) {
                     wizzStuff.addTeleportSpellEq(playerUUID, playerName);
 

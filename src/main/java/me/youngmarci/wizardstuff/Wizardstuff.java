@@ -2,7 +2,7 @@ package me.youngmarci.wizardstuff;
 import me.youngmarci.wizardstuff.mana.manaPoints;
 import me.youngmarci.wizardstuff.spells.castSpell;
 import me.youngmarci.wizardstuff.spells.spellBook;
-import me.youngmarci.wizardstuff.spells.spellEffect;
+import me.youngmarci.wizardstuff.spells.spellClasses.*;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -15,28 +15,33 @@ public final class Wizardstuff extends JavaPlugin implements Listener {
 
     castSpell cstSpell;
     spellBook splBook;
-    spellEffect splEffect;
 
-    public Integer iceSpellCost = 20;
-    public Map<String, String> iceSpellEq = new HashMap<String, String>();
-    public Map<String, String> iceSpellUUID = new HashMap< String, String>();
+    freezeEnemySpell freezeEnemySpl;
+    public Integer freezeEnemySpellCost = 20;
+    public Map<String, String> freezeEnemySpellEq = new HashMap<String, String>();
+    public Map<String, String> freezeEnemySpellUUID = new HashMap< String, String>();
 
-    public Integer teleportationSpellCost = 50;
+    teleportSpell teleportSpl;
+    public Integer teleportSpellCost = 50;
     public Map<String, String> teleportSpellEq = new HashMap<String, String>();
     public Map<String, String> teleportSpellUUID = new HashMap< String, String>();
 
+    decaySpell decaySpl;
     public Integer decaySpellCost = 30;
     public Map<String, String> decaySpellEq = new HashMap<String, String>();
     public Map<String, String> decaySpellUUID = new HashMap< String, String>();
 
+    manaStealSpell manaStealSpl;
     public Integer manaStealSpellCost = 100;
     public Map<String, String> manaStealSpellEq = new HashMap<String, String>();
     public Map<String, String> manaStealSpellUUID = new HashMap< String, String>();
 
+    switchPlaceSpell switchPlaceSpl;
     public Integer switchPlaceSpellCost = 50;
     public Map<String, String> switchPlaceSpellEq = new HashMap<String, String>();
-    public Map<String, String> switchPlaceSpellUUID = new HashMap< String, String>();
+    public Map<String, String> switchPlaceSpellUUID = new HashMap<String, String>();
 
+    meteorRainSpell meteorRainSpl;
     public Integer meteorRainSpellCost = 10;
     public Map<String, String> meteorRainSpellEq = new HashMap<String, String>();
     public Map<String, String> meteorRainSpellUUID = new HashMap< String, String>();
@@ -47,25 +52,32 @@ public final class Wizardstuff extends JavaPlugin implements Listener {
     public Wizardstuff() { // Add reference to class that can access variables
         cstSpell = new castSpell(this);
         splBook = new spellBook(this);
-        splEffect = new spellEffect(this);
         mnaPoints = new manaPoints(this);
+
+        // Spell Classes
+        freezeEnemySpl = new freezeEnemySpell(this);
+        teleportSpl = new teleportSpell(this);
+        decaySpl = new decaySpell(this);
+        manaStealSpl = new manaStealSpell(this);
+        switchPlaceSpl = new switchPlaceSpell(this);
+        meteorRainSpl = new meteorRainSpell(this);
     }
 
-    // Ice Spell
+    // Freeze Enemy Spell
 
-    public void addIceSpellEq(String uuid, String name) {
-        iceSpellEq.put(uuid,name);
+    public void addFreezeEnemySpellEq(String uuid, String name) {
+        freezeEnemySpellEq.put(uuid,name);
     }
 
-    public void rmvIceSpellEq(String uuid, String name) {
-        iceSpellEq.remove(uuid,name);
+    public void rmvFreezeEnemySpellEq(String uuid, String name) {
+        freezeEnemySpellEq.remove(uuid,name);
     }
 
-    public void addIceSpellUUID(String uuid, String name) {
-        iceSpellUUID.put(uuid,name);
+    public void addFreezeEnemySpellUUID(String uuid, String name) {
+        freezeEnemySpellUUID.put(uuid,name);
     }
 
-    // Teleportation Spell
+    // Teleport Spell
 
     public void addTeleportSpellEq(String uuid, String name) {
         teleportSpellEq.put(uuid,name);
@@ -148,9 +160,17 @@ public final class Wizardstuff extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
         Bukkit.getServer().getPluginManager().registerEvents(this, this);
-        Bukkit.getServer().getPluginManager().registerEvents(new castSpell(this), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new spellBook(this), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new spellEffect(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new manaPoints(this), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new spellBook(this), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new castSpell(this), this);
+
+        //Spells Listeners
+
+        Bukkit.getServer().getPluginManager().registerEvents(new freezeEnemySpell(this), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new teleportSpell(this), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new decaySpell(this), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new manaStealSpell(this), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new switchPlaceSpell(this), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new meteorRainSpell(this), this);
     }
 }

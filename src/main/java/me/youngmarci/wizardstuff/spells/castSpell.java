@@ -17,11 +17,11 @@ public class castSpell implements Listener {
 
     Wizardstuff wizzStuff;
 
-    public Integer iceSpellCost;
-    public Map<String, String> iceSpellEq;
-    public Map<String, String> iceSpellUUID;
+    public Integer freezeEnemySpellCost;
+    public Map<String, String> freezeEnemySpellEq;
+    public Map<String, String> freezeEnemySpellUUID;
 
-    public Integer teleportationSpellCost;
+    public Integer teleportSpellCost;
     public Map<String, String> teleportSpellEq;
     public Map<String, String> teleportSpellUUID;
 
@@ -46,11 +46,11 @@ public class castSpell implements Listener {
     public castSpell(Wizardstuff w) { // (Require instance of Wizardstuff) Accessing variables from main class (Wizardstuff)
         this.wizzStuff = w;
 
-        this.iceSpellCost = w.iceSpellCost;
-        this.iceSpellEq = w.iceSpellEq;
-        this.iceSpellUUID = w.iceSpellUUID;
+        this.freezeEnemySpellCost = w.freezeEnemySpellCost;
+        this.freezeEnemySpellEq = w.freezeEnemySpellEq;
+        this.freezeEnemySpellUUID = w.freezeEnemySpellUUID;
 
-        this.teleportationSpellCost = w.teleportationSpellCost;
+        this.teleportSpellCost = w.teleportSpellCost;
         this.teleportSpellEq = w.teleportSpellEq;
         this.teleportSpellUUID = w.teleportSpellUUID;
 
@@ -87,23 +87,23 @@ public class castSpell implements Listener {
         if (action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK)) {
             if (item != null && player.getInventory().getItemInMainHand().getType() == Material.STICK) { // If player clicks with wand
 
-                if (iceSpellEq.containsKey(playerUUID)) {
-                    if (mana >= iceSpellCost) {
-                        Integer manaLeft = mana - iceSpellCost;
+                if (freezeEnemySpellEq.containsKey(playerUUID)) {
+                    if (mana >= freezeEnemySpellCost) {
+                        Integer manaLeft = mana - freezeEnemySpellCost;
 
                         wizzStuff.rmvManaPoints(playerUUID, mana);
                         wizzStuff.addManaPoints(playerUUID, manaLeft);
 
-                        wizzStuff.rmvIceSpellEq(playerUUID, playerName); // Remove equipment of spell from HashMap (iceSpellUUID)
+                        wizzStuff.rmvFreezeEnemySpellEq(playerUUID, playerName); // Remove equipment of spell from HashMap (iceSpellUUID)
 
                         String projectileUUID = player.launchProjectile(Snowball.class).getUniqueId().toString(); // Launch a snowball & get its UUID
 
-                        wizzStuff.addIceSpellUUID(projectileUUID, playerName); // Put snowballUUID and PlayerName to HashMap (iceSpellUUID)
-                        player.sendMessage("You casted ice spell! Remaining mana: " + manaLeft);
+                        wizzStuff.addFreezeEnemySpellUUID(projectileUUID, playerName); // Put snowballUUID and PlayerName to HashMap (iceSpellUUID)
+                        player.sendMessage("You casted freeze enemy spell! Remaining mana: " + manaLeft);
                     }
                 } else if (teleportSpellEq.containsKey(playerUUID)) {
-                    if (mana >= teleportationSpellCost) {
-                        Integer manaLeft = mana - teleportationSpellCost;
+                    if (mana >= teleportSpellCost) {
+                        Integer manaLeft = mana - teleportSpellCost;
 
                         wizzStuff.rmvManaPoints(playerUUID, mana);
                         wizzStuff.addManaPoints(playerUUID, manaLeft);
@@ -113,7 +113,7 @@ public class castSpell implements Listener {
                         String projectileUUID = player.launchProjectile(Snowball.class).getUniqueId().toString(); // Launch a snowball & get its UUID
 
                         wizzStuff.addTeleportSpellUUID(projectileUUID, playerName); // Put snowballUUID and PlayerName to HashMap (teleportationSpellUUID)
-                        player.sendMessage("You casted a teleportation spell! Remaining mana: " + manaLeft);
+                        player.sendMessage("You casted a teleport spell! Remaining mana: " + manaLeft);
                     }
                 } else if (decaySpellEq.containsKey(playerUUID)) {
                     if (mana >= decaySpellCost) {
