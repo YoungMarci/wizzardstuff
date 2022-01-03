@@ -41,6 +41,10 @@ public class castSpell implements Listener {
     public Map<String, String> meteorRainSpellEq;
     public Map<String, String> meteorRainSpellUUID;
 
+    public Integer circleOfFireSpellCost;
+    public Map<String, String> circleOfFireSpellEq;
+    public Map<String, String> circleOfFireSpellUUID;
+
     public HashMap<String, Integer> manaCount;
 
     public castSpell(Wizardstuff w) { // (Require instance of Wizardstuff) Accessing variables from main class (Wizardstuff)
@@ -69,6 +73,10 @@ public class castSpell implements Listener {
         this.meteorRainSpellCost = w.meteorRainSpellCost;
         this.meteorRainSpellEq = w.meteorRainSpellEq;
         this.meteorRainSpellUUID = w.meteorRainSpellUUID;
+
+        this.circleOfFireSpellCost = w.circleOfFireSpellCost;
+        this.circleOfFireSpellEq = w.circleOfFireSpellEq;
+        this.circleOfFireSpellUUID = w.circleOfFireSpellUUID;
 
 
         this.manaCount = w.manaCount;
@@ -171,7 +179,22 @@ public class castSpell implements Listener {
                         wizzStuff.addMeteorRainSpellUUID(projectileUUID, playerName);
                         player.sendMessage("You casted a meteor rain spell! Remaining mana: " + manaLeft);
                     }
+                } else if (circleOfFireSpellEq.containsKey(playerUUID)) {
+                    if (mana >= circleOfFireSpellCost) {
+                        Integer manaLeft = mana - circleOfFireSpellCost;
+
+                        wizzStuff.rmvManaPoints(playerUUID, mana);
+                        wizzStuff.addManaPoints(playerUUID, manaLeft);
+
+                        wizzStuff.rmvCircleOfFireSpellEq(playerUUID, playerName);
+
+                        String projectileUUID = player.launchProjectile(Snowball.class).getUniqueId().toString(); // Launch a snowball & get its UUID
+
+                        wizzStuff.addCircleOfFireSpellUUID(projectileUUID, playerName);
+                        player.sendMessage("You casted a circle of fire spell! Remaining mana: " + manaLeft);
+                    }
                 }
+
             }
         }
     }

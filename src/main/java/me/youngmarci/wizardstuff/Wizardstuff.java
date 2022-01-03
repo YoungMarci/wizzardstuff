@@ -46,6 +46,11 @@ public final class Wizardstuff extends JavaPlugin implements Listener {
     public Map<String, String> meteorRainSpellEq = new HashMap<String, String>();
     public Map<String, String> meteorRainSpellUUID = new HashMap< String, String>();
 
+    circleOfFireSpell circleOfFireSpl;
+    public Integer circleOfFireSpellCost = 10;
+    public Map<String, String> circleOfFireSpellEq = new HashMap<String, String>();
+    public Map<String, String> circleOfFireSpellUUID = new HashMap< String, String>();
+
     manaPoints mnaPoints;
     public HashMap<String, Integer> manaCount = new HashMap<String, Integer>();
 
@@ -61,6 +66,7 @@ public final class Wizardstuff extends JavaPlugin implements Listener {
         manaStealSpl = new manaStealSpell(this);
         switchPlaceSpl = new switchPlaceSpell(this);
         meteorRainSpl = new meteorRainSpell(this);
+        circleOfFireSpl = new circleOfFireSpell(this);
     }
 
     // Freeze Enemy Spell
@@ -147,6 +153,20 @@ public final class Wizardstuff extends JavaPlugin implements Listener {
         meteorRainSpellUUID.put(uuid,name);
     }
 
+    // Add Circle Of Fire Spell
+
+    public void addCircleOfFireSpellEq(String uuid, String name) {
+        circleOfFireSpellEq.put(uuid,name);
+    }
+
+    public void rmvCircleOfFireSpellEq(String uuid, String name) {
+        circleOfFireSpellEq.remove(uuid,name);
+    }
+
+    public void addCircleOfFireSpellUUID(String uuid, String name) {
+        circleOfFireSpellUUID.put(uuid,name);
+    }
+
     // Mana Points
 
     public void addManaPoints(String uuid, Integer mana) {
@@ -172,5 +192,6 @@ public final class Wizardstuff extends JavaPlugin implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(new manaStealSpell(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new switchPlaceSpell(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new meteorRainSpell(this), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new circleOfFireSpell(this), this);
     }
 }

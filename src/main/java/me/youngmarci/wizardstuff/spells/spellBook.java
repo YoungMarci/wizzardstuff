@@ -30,6 +30,9 @@ public class spellBook implements Listener {
     public Map<String, String> meteorRainSpellEq;
     public Map<String, String> meteorRainSpellUUID;
 
+    public Map<String, String> circleOfFireSpellEq;
+    public Map<String, String> circleOfFireSpellUUID;
+
     public HashMap<String, Integer> manaCount;
 
     public spellBook(Wizardstuff w) { // (Require instance of Wizardstuff) Accessing variables from main class (Wizardstuff)
@@ -53,6 +56,8 @@ public class spellBook implements Listener {
         this.meteorRainSpellEq = w.meteorRainSpellEq;
         this.meteorRainSpellUUID = w.meteorRainSpellUUID;
 
+        this.circleOfFireSpellEq = w.circleOfFireSpellEq;
+        this.circleOfFireSpellUUID = w.circleOfFireSpellUUID;
 
         this.manaCount = w.manaCount;
     }
@@ -64,7 +69,7 @@ public class spellBook implements Listener {
         String playerName = player.getName();
         BookMeta bookmeta = event.getNewBookMeta();
 
-        if (!freezeEnemySpellEq.containsKey(playerUUID) && !teleportSpellEq.containsKey(playerUUID) && !decaySpellEq.containsKey(playerUUID) && !manaStealSpellEq.containsKey(playerUUID) && !switchPlaceSpellEq.containsKey(playerUUID) && !meteorRainSpellEq.containsKey(playerUUID)) { // If any spell is not equipped
+        if (!freezeEnemySpellEq.containsKey(playerUUID) && !teleportSpellEq.containsKey(playerUUID) && !decaySpellEq.containsKey(playerUUID) && !manaStealSpellEq.containsKey(playerUUID) && !switchPlaceSpellEq.containsKey(playerUUID) && !meteorRainSpellEq.containsKey(playerUUID) && !circleOfFireSpellEq.containsKey(playerUUID)) { // If any spell is not equipped
             if (player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals("SpellBook")) { // Check for SpellBook in main hand
                 String pageContent = bookmeta.getPage(1);
 
@@ -92,6 +97,10 @@ public class spellBook implements Listener {
                     wizzStuff.addMeteorRainSpellEq(playerUUID, playerName);
 
                     player.sendMessage("You equipped meteor rain spell!");
+                } else if (pageContent.contains("cfr")) {
+                    wizzStuff.addCircleOfFireSpellEq(playerUUID, playerName);
+
+                    player.sendMessage("You equipped circle of fire spell!");
                 }
             }
         }

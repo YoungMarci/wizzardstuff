@@ -10,19 +10,15 @@ import org.bukkit.entity.Snowball;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 public class switchPlaceSpell implements Listener {
 
     Wizardstuff wizzStuff;
     public Map<String, String> switchPlaceSpellUUID;
-
-    public Map<String, String> switched = new HashMap<String, String>();
 
     public switchPlaceSpell(Wizardstuff w) { // (Require instance of Wizardstuff) Accessing variables from main class (Wizardstuff)
         this.wizzStuff = w;
